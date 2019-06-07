@@ -14,12 +14,13 @@ select id, f_fileName, f_linesInserted, f_linesDeleted, f_revisionId, 0 from gm_
 insert into gm_eclipse.temp (id,f_fileName,f_linesInserted, f_linesDeleted, f_revisionId, f_source)
 select id, f_fileName, f_linesInserted, f_linesDeleted, f_revisionId, 1 from gm_eclipse.t_file where f_fileName like '%/src/%' or f_fileName like '%/source/%';
 
-select result1.c1, result1.ecosystem_tenure, result1.review_tenure, result1.reviews, 
+select result1.c1 as change_id, result1.review_time, result1.ecosystem_tenure, result1.changes, result1.review_tenure, result1.reviews, 
 	result1.added_lines, result1.removed_lines, result1.no_files, result1.sources,
-	DATEDIFF(result1.updatedTime,result2.first_label) as blocking_tenure, result2.blocking_activity from
+	DATEDIFF(result1.updatedTime, result2.first_label) as blocking_tenure, result2.blocking_activity from
 		(select 
 		c.id as c1, 
         c.ch_updatedTime as updatedTime,
+        DATEDIFF(c.ch_updatedTime, min(r.rev_committedTime)) as review_time,
         DATEDIFF(c.ch_updatedTime, min(r.rev_createdTime)) as ecosystem_tenure,
         count(r.id) as changes,
         DATEDIFF(c.ch_updatedTime, min(h.hist_createdTime)) as review_tenure,

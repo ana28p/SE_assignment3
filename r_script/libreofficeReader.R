@@ -29,6 +29,18 @@ change_ids <- elements$change_id
 data_length <- length(change_ids)
 elements_to_remove <- as.integer(data_length * var_percentage / 100)
 
+#order by changes
+elements <- elements[order(elements$changes), ]
+#remove from the end 
+elements <- elements[c(-(data_length - elements_to_remove + 1): -data_length), ]
+#remove from the beginning 
+elements <- elements[c(-1:-elements_to_remove), ]
+
+#recalculate
+change_ids <- elements$change_id
+data_length <- length(change_ids)
+elements_to_remove <- as.integer(data_length * var_percentage / 100)
+
 #order by review_tenure
 elements <- elements[order(elements$review_tenure), ]
 #remove from the end 
