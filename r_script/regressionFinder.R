@@ -1,22 +1,3 @@
-vif_filter <- function(elements) {
-  
-  output = list("added_lines", "removed_lines", "no_files", "sources")
-  for (i1 in input) {
-    for (i2 in input) {
-      for (o1 in output) {
-        if (i1 != i2) {
-          res = vif(lm(as.formula(paste(o1, "~", i1, "+", i2, sep = "")), data=elements))
-          print(res)
-          if (res > 3.0) {
-            return(i2);
-          }
-        }
-      }
-    }
-  }
-  return("");
-}
-
 library(car)
 eclipseSet = TRUE
 
@@ -35,7 +16,7 @@ if (eclipseSet) {
 #keep base
 elements <- base_elements
 
-var_percentage <- 2
+var_percentage <- 1
 
 change_ids <- elements$change_id
 data_length <- length(change_ids)
